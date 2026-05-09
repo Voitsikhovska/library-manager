@@ -23,10 +23,18 @@ Rails.application.routes.draw do
   resources :users, only: [ :show ]
 
   # Books routes
-  resources :books
+  resources :books do
+    collection do
+      post :export
+    end
+  end
 
   # Authors routes
-  resources :authors
+  resources :authors do
+    collection do
+      post :export
+    end
+  end
 
   # Sessions routes (handled separately for custom actions)
 end

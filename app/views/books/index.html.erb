@@ -38,16 +38,38 @@
 
   <div class="mb-4 flex justify-between items-center">
     <p class="text-gray-600"><%= pluralize(@books.count, "book") %> found</p>
-    <div>
-      <%= form_with(url: books_path, method: :get, local: true, style: "display: inline-block;") do |form| %>
-        <%= form.hidden_field :search, value: params[:search] %>
-        <%= form.hidden_field :author_id, value: params[:author_id] %>
-        <%= form.hidden_field :year_from, value: params[:year_from] %>
-        <%= form.hidden_field :year_to, value: params[:year_to] %>
-        Sort by:
-        <%= form.select :sort, [["Most Recent", "recent"], ["Title A-Z", "title_asc"]], { selected: params[:sort] || "recent" }, class: "px-2 py-1 border border-gray-300 rounded" %>
-        <%= form.submit "Sort", class: "px-2 py-1 bg-gray-600 text-white rounded text-sm hover:bg-gray-700" %>
-      <% end %>
+    <div class="flex gap-4 items-center">
+      <div>
+        <%= form_with(url: books_path, method: :get, local: true, style: "display: inline-block;") do |form| %>
+          <%= form.hidden_field :search, value: params[:search] %>
+          <%= form.hidden_field :author_id, value: params[:author_id] %>
+          <%= form.hidden_field :year_from, value: params[:year_from] %>
+          <%= form.hidden_field :year_to, value: params[:year_to] %>
+          Sort by:
+          <%= form.select :sort, [["Most Recent", "recent"], ["Title A-Z", "title_asc"]], { selected: params[:sort] || "recent" }, class: "px-2 py-1 border border-gray-300 rounded" %>
+          <%= form.submit "Sort", class: "px-2 py-1 bg-gray-600 text-white rounded text-sm hover:bg-gray-700" %>
+        <% end %>
+      </div>
+      
+      <div class="flex gap-2">
+        <span class="text-gray-600 text-sm">Export:</span>
+        <%= form_with(url: export_books_path, method: :post, local: true, style: "display: inline-block;") do |form| %>
+          <%= form.hidden_field :search, value: params[:search] %>
+          <%= form.hidden_field :author_id, value: params[:author_id] %>
+          <%= form.hidden_field :year_from, value: params[:year_from] %>
+          <%= form.hidden_field :year_to, value: params[:year_to] %>
+          <%= form.hidden_field :format, value: 'csv' %>
+          <%= form.submit "CSV", class: "px-2 py-1 bg-green-600 text-white rounded text-sm hover:bg-green-700" %>
+        <% end %>
+        <%= form_with(url: export_books_path, method: :post, local: true, style: "display: inline-block;") do |form| %>
+          <%= form.hidden_field :search, value: params[:search] %>
+          <%= form.hidden_field :author_id, value: params[:author_id] %>
+          <%= form.hidden_field :year_from, value: params[:year_from] %>
+          <%= form.hidden_field :year_to, value: params[:year_to] %>
+          <%= form.hidden_field :format, value: 'json' %>
+          <%= form.submit "JSON", class: "px-2 py-1 bg-purple-600 text-white rounded text-sm hover:bg-purple-700" %>
+        <% end %>
+      </div>
     </div>
   </div>
 
