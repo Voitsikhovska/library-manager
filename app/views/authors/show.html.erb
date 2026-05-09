@@ -1,0 +1,51 @@
+<div class="container mx-auto px-4 py-8 max-w-2xl">
+  <div class="bg-white border border-gray-200 rounded-lg p-8">
+    <h1 class="text-4xl font-bold mb-4"><%= @author.name %></h1>
+    
+    <div class="grid grid-cols-2 gap-4 mb-6">
+      <% if @author.birth_year %>
+        <div>
+          <h2 class="text-gray-600 font-semibold">Born</h2>
+          <p class="text-lg"><%= @author.birth_year %></p>
+        </div>
+      <% end %>
+      
+      <div>
+        <h2 class="text-gray-600 font-semibold">Total Books</h2>
+        <p class="text-lg"><%= @books.count %></p>
+      </div>
+    </div>
+    
+    <% if @author.bio.present? %>
+      <div class="mb-6">
+        <h2 class="text-gray-600 font-semibold mb-2">Biography</h2>
+        <p class="text-gray-700 leading-relaxed"><%= simple_format(@author.bio) %></p>
+      </div>
+    <% end %>
+    
+    <% if @books.any? %>
+      <div class="mb-6">
+        <h2 class="text-gray-600 font-semibold mb-4">Books by this Author</h2>
+        <div class="grid grid-cols-1 gap-4">
+          <% @books.each do |book| %>
+            <div class="border border-gray-200 rounded p-4 hover:shadow">
+              <h3 class="font-bold"><%= link_to book.title, book_path(book), class: "text-blue-600 hover:underline" %></h3>
+              <p class="text-gray-600 text-sm">Added by: <%= book.user.name %></p>
+              <% if book.published_year %>
+                <p class="text-gray-600 text-sm">Published: <%= book.published_year %></p>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+    
+    <div class="flex gap-2">
+      <%= link_to "Back to Authors", authors_path, class: "px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700" %>
+      <% if logged_in? %>
+        <%= link_to "Edit", edit_author_path(@author), class: "px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700" %>
+        <%= link_to "Delete", @author, method: :delete, data: { confirm: "This will delete the author and all their books. Are you sure?" }, class: "px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700" %>
+      <% end %>
+    </div>
+  </div>
+</div>
