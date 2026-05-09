@@ -25,5 +25,8 @@ Rails.application.routes.draw do
   # Books routes
   resources :books
 
+  # Authors routes
+  resources :authors
+
   # Sessions routes (handled separately for custom actions)
 end
