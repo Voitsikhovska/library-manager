@@ -22,5 +22,8 @@ Rails.application.routes.draw do
   # Users routes
   resources :users, only: [ :show ]
 
+  # Books routes
+  resources :books
+
   # Sessions routes (handled separately for custom actions)
 end
