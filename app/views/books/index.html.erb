@@ -1,0 +1,59 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-4xl font-bold">Books Library</h1>
+    <% if logged_in? %>
+      <%= link_to "Add New Book", new_book_path, class: "px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" %>
+    <% end %>
+  </div>
+
+  <div class="mb-6">
+    <%= form_with(url: books_path, method: :get, local: true) do |form| %>
+      <div class="flex gap-2">
+        <%= form.text_field :search, placeholder: "Search by title or description...", class: "flex-1 px-3 py-2 border border-gray-300 rounded" %>
+        <%= form.submit "Search", class: "px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700" %>
+        <% if params[:search].present? %>
+          <%= link_to "Clear", books_path, class: "px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500" %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <% if @books.any? %>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <% @books.each do |book| %>
+        <div class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg">
+          <h2 class="text-xl font-bold mb-2"><%= link_to book.title, book, class: "text-blue-600 hover:underline" %></h2>
+          
+          <div class="text-gray-600 mb-2">
+            <p><strong>Author:</strong> <%= link_to book.author.name, author_path(book.author), class: "text-blue-600 hover:underline" %></p>
+            <p><strong>ISBN:</strong> <%= book.isbn %></p>
+            <% if book.published_year %>
+              <p><strong>Published:</strong> <%= book.published_year %></p>
+            <% end %>
+          </div>
+
+          <p class="text-gray-700 mb-4"><%= truncate(book.description, length: 100) %></p>
+
+          <div class="text-gray-500 mb-4">
+            <p><strong>Added by:</strong> <%= book.user.name %></p>
+          </div>
+
+          <div class="flex gap-2">
+            <%= link_to "View", book, class: "px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700" %>
+            <% if logged_in? && book.user == current_user %>
+              <%= link_to "Edit", edit_book_path(book), class: "px-3 py-1 bg-yellow-600 text-white rounded text-sm hover:bg-yellow-700" %>
+              <%= link_to "Delete", book, method: :delete, data: { confirm: "Are you sure?" }, class: "px-3 py-1 bg-red-600 text-white rounded text-sm hover:bg-red-700" %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="bg-gray-100 border border-gray-300 rounded-lg p-6 text-center">
+      <p class="text-gray-600 text-lg">No books found.</p>
+      <% if logged_in? %>
+        <p class="mt-2"><%= link_to "Add the first book", new_book_path, class: "text-blue-600 hover:underline" %></p>
+      <% end %>
+    </div>
+  <% end %>
+</div>
