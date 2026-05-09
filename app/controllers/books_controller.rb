@@ -4,11 +4,19 @@ class BooksController < ApplicationController
   before_action :check_ownership, only: [ :edit, :update, :destroy ]
 
   def index
-    @books = if params[:search].present?
-               Book.where("title ILIKE ? OR description ILIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
+    @books = BookSearchService.new(params).call
+
+    # Apply sorting
+    @books = case params[:sort]
+    when "title_asc"
+               @books.alphabetical
+    when "recent"
+               @books.recent
     else
-               Book.all
+               @books.recent
     end
+
+    @authors = Author.alphabetical
   end
 
   def show
