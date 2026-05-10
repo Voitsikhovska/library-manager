@@ -52,6 +52,23 @@ class BooksController < ApplicationController
     redirect_to books_url, notice: "Book '#{title}' was successfully deleted."
   end
 
+  def export
+    books = BookSearchService.new(params).call
+
+    case params[:format]
+    when "csv"
+      send_data BookExportService.to_csv(books),
+                filename: "books_#{Date.today}.csv",
+                type: "text/csv; charset=utf-8"
+    when "json"
+      send_data BookExportService.to_json(books),
+                filename: "books_#{Date.today}.json",
+                type: "application/json"
+    else
+      redirect_to books_path, alert: "Invalid export format"
+    end
+  end
+
   private
 
   def set_book

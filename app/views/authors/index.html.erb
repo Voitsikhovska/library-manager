@@ -32,8 +32,25 @@
     <% end %>
   </div>
 
-  <div class="mb-4">
+  <div class="mb-4 flex justify-between items-center">
     <p class="text-gray-600"><%= pluralize(@authors.count, "author") %> found</p>
+    <div class="flex gap-2">
+      <span class="text-gray-600 text-sm">Export:</span>
+      <%= form_with(url: export_authors_path, method: :post, local: true, style: "display: inline-block;") do |form| %>
+        <%= form.hidden_field :search, value: params[:search] %>
+        <%= form.hidden_field :birth_year_from, value: params[:birth_year_from] %>
+        <%= form.hidden_field :birth_year_to, value: params[:birth_year_to] %>
+        <%= form.hidden_field :format, value: 'csv' %>
+        <%= form.submit "CSV", class: "px-2 py-1 bg-green-600 text-white rounded text-sm hover:bg-green-700" %>
+      <% end %>
+      <%= form_with(url: export_authors_path, method: :post, local: true, style: "display: inline-block;") do |form| %>
+        <%= form.hidden_field :search, value: params[:search] %>
+        <%= form.hidden_field :birth_year_from, value: params[:birth_year_from] %>
+        <%= form.hidden_field :birth_year_to, value: params[:birth_year_to] %>
+        <%= form.hidden_field :format, value: 'json' %>
+        <%= form.submit "JSON", class: "px-2 py-1 bg-purple-600 text-white rounded text-sm hover:bg-purple-700" %>
+      <% end %>
+    </div>
   </div>
 
   <% if @authors.any? %>

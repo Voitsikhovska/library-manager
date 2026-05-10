@@ -49,6 +49,23 @@ class AuthorsController < ApplicationController
     redirect_to authors_url, notice: "Author '#{name}' and #{book_count} associated books were successfully deleted."
   end
 
+  def export
+    authors = AuthorSearchService.new(params).call
+
+    case params[:format]
+    when "csv"
+      send_data AuthorExportService.to_csv(authors),
+                filename: "authors_#{Date.today}.csv",
+                type: "text/csv; charset=utf-8"
+    when "json"
+      send_data AuthorExportService.to_json(authors),
+                filename: "authors_#{Date.today}.json",
+                type: "application/json"
+    else
+      redirect_to authors_path, alert: "Invalid export format"
+    end
+  end
+
   private
 
   def set_author
