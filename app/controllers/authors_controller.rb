@@ -3,10 +3,14 @@ class AuthorsController < ApplicationController
   before_action :set_author, only: [ :show, :edit, :update, :destroy ]
 
   def index
-    @authors = if params[:search].present?
-                 Author.where("name ILIKE ? OR bio ILIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
+    @authors = AuthorSearchService.new(params).call
+
+    # Apply sorting
+    @authors = case params[:sort]
+    when "name"
+                 @authors.alphabetical
     else
-                 Author.all
+                 @authors.alphabetical
     end
   end
 
