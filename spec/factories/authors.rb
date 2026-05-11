@@ -3,6 +3,7 @@ FactoryBot.define do
     sequence(:name) { |n| "#{Faker::Book.author} #{n}" }
     bio { Faker::Lorem.paragraph(sentence_count: 3) }
     birth_year { rand(1900..2000) }
+    association :user
 
     trait :with_books do
       after(:create) do |author|
