@@ -11,7 +11,7 @@ RSpec.describe Book, type: :model do
 
     it { should validate_presence_of(:title) }
     it { should validate_presence_of(:isbn) }
-    it { should validate_uniqueness_of(:isbn) }
+    it { should validate_uniqueness_of(:isbn).case_insensitive }
     it { should validate_presence_of(:user_id) }
     it { should validate_presence_of(:author_id) }
 
@@ -21,7 +21,9 @@ RSpec.describe Book, type: :model do
     end
 
     it 'allows nil published_year' do
-      book = build(:book, published_year: nil)
+      user = create(:user)
+      author = create(:author)
+      book = build(:book, published_year: nil, user: user, author: author)
       expect(book).to be_valid
     end
   end
