@@ -1,5 +1,5 @@
 class AuthorsController < ApplicationController
-  before_action :require_login, except: [ :index, :show ]
+  before_action :require_login, except: [ :index, :show, :export ]
   before_action :set_author, only: [ :show, :edit, :update, :destroy ]
 
   def index
@@ -23,7 +23,7 @@ class AuthorsController < ApplicationController
   end
 
   def create
-    @author = Author.new(author_params)
+    @author = current_user.authors.build(author_params)
     if @author.save
       redirect_to @author, notice: "Author was successfully created."
     else
@@ -51,16 +51,19 @@ class AuthorsController < ApplicationController
 
   def export
     authors = AuthorSearchService.new(params).call
+    export_format = params[:export_format] || params[:format]
 
-    case params[:format]
+    case export_format
     when "csv"
       send_data AuthorExportService.to_csv(authors),
                 filename: "authors_#{Date.today}.csv",
-                type: "text/csv; charset=utf-8"
+                type: "text/csv; charset=utf-8",
+                disposition: "attachment"
     when "json"
       send_data AuthorExportService.to_json(authors),
                 filename: "authors_#{Date.today}.json",
-                type: "application/json"
+                type: "application/json",
+                disposition: "attachment"
     else
       redirect_to authors_path, alert: "Invalid export format"
     end
@@ -74,5 +77,11 @@ class AuthorsController < ApplicationController
 
   def author_params
     params.require(:author).permit(:name, :bio, :birth_year)
+  end
+
+  def check_ownership
+    unless @author.user == current_user
+      redirect_to authors_path, alert: "You can only edit or delete authors you created"
+    end
   end
 end

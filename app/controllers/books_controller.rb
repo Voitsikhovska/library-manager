@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  before_action :require_login, except: [ :index, :show ]
+  before_action :require_login, except: [ :index, :show, :export ]
   before_action :set_book, only: [ :show, :edit, :update, :destroy ]
   before_action :check_ownership, only: [ :edit, :update, :destroy ]
 
@@ -16,6 +16,7 @@ class BooksController < ApplicationController
                @books.recent
     end
 
+    # No pagination - show all books
     @authors = Author.alphabetical
   end
 
@@ -54,16 +55,19 @@ class BooksController < ApplicationController
 
   def export
     books = BookSearchService.new(params).call
+    export_format = params[:export_format] || params[:format]
 
-    case params[:format]
+    case export_format
     when "csv"
       send_data BookExportService.to_csv(books),
                 filename: "books_#{Date.today}.csv",
-                type: "text/csv; charset=utf-8"
+                type: "text/csv; charset=utf-8",
+                disposition: "attachment"
     when "json"
       send_data BookExportService.to_json(books),
                 filename: "books_#{Date.today}.json",
-                type: "application/json"
+                type: "application/json",
+                disposition: "attachment"
     else
       redirect_to books_path, alert: "Invalid export format"
     end

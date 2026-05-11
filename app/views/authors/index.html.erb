@@ -25,7 +25,7 @@
 
       <div class="mt-4 flex gap-2">
         <%= form.submit "Filter", class: "px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" %>
-        <% if params.any? { |k, v| ["search", "birth_year_from", "birth_year_to"].include?(k) && v.present? } %>
+        <% if params[:search].present? || params[:birth_year_from].present? || params[:birth_year_to].present? %>
           <%= link_to "Clear Filters", authors_path, class: "px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500" %>
         <% end %>
       </div>
@@ -36,18 +36,18 @@
     <p class="text-gray-600"><%= pluralize(@authors.count, "author") %> found</p>
     <div class="flex gap-2">
       <span class="text-gray-600 text-sm">Export:</span>
-      <%= form_with(url: export_authors_path, method: :post, local: true, style: "display: inline-block;") do |form| %>
+      <%= form_with(url: export_authors_path, method: :post, data: { turbo: false }, style: "display: inline-block;") do |form| %>
         <%= form.hidden_field :search, value: params[:search] %>
         <%= form.hidden_field :birth_year_from, value: params[:birth_year_from] %>
         <%= form.hidden_field :birth_year_to, value: params[:birth_year_to] %>
-        <%= form.hidden_field :format, value: 'csv' %>
+        <%= form.hidden_field :export_format, value: 'csv' %>
         <%= form.submit "CSV", class: "px-2 py-1 bg-green-600 text-white rounded text-sm hover:bg-green-700" %>
       <% end %>
-      <%= form_with(url: export_authors_path, method: :post, local: true, style: "display: inline-block;") do |form| %>
+      <%= form_with(url: export_authors_path, method: :post, data: { turbo: false }, style: "display: inline-block;") do |form| %>
         <%= form.hidden_field :search, value: params[:search] %>
         <%= form.hidden_field :birth_year_from, value: params[:birth_year_from] %>
         <%= form.hidden_field :birth_year_to, value: params[:birth_year_to] %>
-        <%= form.hidden_field :format, value: 'json' %>
+        <%= form.hidden_field :export_format, value: 'json' %>
         <%= form.submit "JSON", class: "px-2 py-1 bg-purple-600 text-white rounded text-sm hover:bg-purple-700" %>
       <% end %>
     </div>
@@ -56,7 +56,7 @@
   <% if @authors.any? %>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <% @authors.each do |author| %>
-        <div class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg">
+        <div class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow duration-200">
           <h2 class="text-xl font-bold mb-2"><%= link_to author.name, author, class: "text-blue-600 hover:underline" %></h2>
           
           <div class="text-gray-600 mb-2">
@@ -70,9 +70,9 @@
 
           <div class="flex gap-2">
             <%= link_to "View", author, class: "px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700" %>
-            <% if logged_in? %>
+            <% if logged_in? && author.user == current_user %>
               <%= link_to "Edit", edit_author_path(author), class: "px-3 py-1 bg-yellow-600 text-white rounded text-sm hover:bg-yellow-700" %>
-              <%= link_to "Delete", author, method: :delete, data: { confirm: "This will delete the author and all their books. Are you sure?" }, class: "px-3 py-1 bg-red-600 text-white rounded text-sm hover:bg-red-700" %>
+              <%= button_to "Delete", author, method: :delete, data: { confirm: "This will delete the author and all their books. Are you sure?" }, class: "px-3 py-1 bg-red-600 text-white rounded text-sm hover:bg-red-700", form: { style: "display: inline-block;" } %>
             <% end %>
           </div>
         </div>

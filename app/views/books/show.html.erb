@@ -35,7 +35,7 @@
       <%= link_to "Back to Books", books_path, class: "px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700" %>
       <% if logged_in? && @book.user == current_user %>
         <%= link_to "Edit", edit_book_path(@book), class: "px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700" %>
-        <%= link_to "Delete", @book, method: :delete, data: { confirm: "Are you sure?" }, class: "px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700" %>
+        <%= button_to "Delete", @book, method: :delete, data: { confirm: "Are you sure?" }, class: "px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700", form: { style: "display: inline-block;" } %>
       <% end %>
     </div>
   </div>

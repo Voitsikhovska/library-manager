@@ -11,7 +11,7 @@ RSpec.describe Book, type: :model do
 
     it { should validate_presence_of(:title) }
     it { should validate_presence_of(:isbn) }
-    it { should validate_uniqueness_of(:isbn) }
+    it { should validate_uniqueness_of(:isbn).case_insensitive }
     it { should validate_presence_of(:user_id) }
     it { should validate_presence_of(:author_id) }
 
@@ -21,7 +21,9 @@ RSpec.describe Book, type: :model do
     end
 
     it 'allows nil published_year' do
-      book = build(:book, published_year: nil)
+      user = create(:user)
+      author = create(:author)
+      book = build(:book, published_year: nil, user: user, author: author)
       expect(book).to be_valid
     end
   end
@@ -54,7 +56,7 @@ RSpec.describe Book, type: :model do
     describe '.by_year' do
       it 'filters books by published year' do
         results = Book.by_year(2020)
-        expect(results).to eq([book1])
+        expect(results).to eq([ book1 ])
       end
     end
 
@@ -76,7 +78,7 @@ RSpec.describe Book, type: :model do
     describe '.alphabetical' do
       it 'orders books alphabetically by title' do
         results = Book.alphabetical
-        expect(results.pluck(:title)).to eq(['Advanced Ruby', 'Rails Guide', 'Ruby Programming'])
+        expect(results.pluck(:title)).to eq([ 'Advanced Ruby', 'Rails Guide', 'Ruby Programming' ])
       end
     end
   end
@@ -90,4 +92,3 @@ RSpec.describe Book, type: :model do
     end
   end
 end
-

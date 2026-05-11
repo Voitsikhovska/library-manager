@@ -32,3 +32,15 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+/app/assets/builds/*
+!/app/assets/builds/.keep
+
+# Node modules
+node_modules/
+# Coverage reports
+/coverage/
+# IDE files
+.idea/
+# Tailwind build output (auto-generated)
+/app/assets/builds/

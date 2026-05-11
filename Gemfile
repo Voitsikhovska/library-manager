@@ -52,6 +52,12 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  # RSpec for testing
+  gem "rspec-rails", "~> 6.1.0"
+  gem "factory_bot_rails", "~> 6.4"
+  gem "faker", "~> 3.2"
+  gem "rails-controller-testing"  # For assigns and assert_template in Rails 8
 end
 
 group :development do
@@ -63,4 +69,16 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+
+  # RSpec test helpers
+  gem "shoulda-matchers", "~> 6.0"
+  gem "database_cleaner-active_record", "~> 2.1"
+  gem "simplecov", require: false
+  gem "webmock", "~> 3.19"
 end
+
+# Pagination
+gem "kaminari", "~> 1.2"
+
+# Tailwind CSS for styling
+gem "tailwindcss-rails", "~> 2.0"
