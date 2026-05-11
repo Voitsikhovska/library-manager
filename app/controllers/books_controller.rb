@@ -80,7 +80,7 @@ class BooksController < ApplicationController
   end
 
   def check_ownership
-    redirect_to books_path, alert: "Not authorized" unless @book.user == current_user
+    check_resource_ownership(@book, books_path, "Not authorized")
   end
 
   def book_params

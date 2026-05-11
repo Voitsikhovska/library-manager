@@ -1,6 +1,7 @@
 class AuthorsController < ApplicationController
   before_action :require_login, except: [ :index, :show, :export ]
   before_action :set_author, only: [ :show, :edit, :update, :destroy ]
+  before_action :check_ownership, only: [ :edit, :update, :destroy ]
 
   def index
     @authors = AuthorSearchService.new(params).call
@@ -80,8 +81,6 @@ class AuthorsController < ApplicationController
   end
 
   def check_ownership
-    unless @author.user == current_user
-      redirect_to authors_path, alert: "You can only edit or delete authors you created"
-    end
+    check_resource_ownership(@author, authors_path, "You can only edit or delete authors you created")
   end
 end

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AuthorsController, type: :controller do
   let(:user) { create(:user) }
-  let(:author) { create(:author) }
+  let(:author) { create(:author, user: user) }
 
   describe 'GET #index' do
     let!(:author1) { create(:author) }
@@ -123,30 +123,30 @@ RSpec.describe AuthorsController, type: :controller do
     end
   end
 
-  describe 'DELETE #destroy' do
+  describe "DELETE #destroy" do
     before { login_user(user) }
 
-    it 'destroys the author' do
-      author_to_delete = create(:author)
+    it "destroys the author" do
+      author_to_delete = create(:author, user: user)
       expect {
         delete :destroy, params: { id: author_to_delete.id }
       }.to change(Author, :count).by(-1)
     end
 
-    it 'destroys associated books' do
-      author_with_books = create(:author, :with_books)
+    it "destroys associated books" do
+      author_with_books = create(:author, :with_books, user: user)
       expect {
         delete :destroy, params: { id: author_with_books.id }
       }.to change(Book, :count).by(-5)
     end
 
-    it 'redirects to authors list' do
+    it "redirects to authors list" do
       delete :destroy, params: { id: author.id }
       expect(response).to redirect_to(authors_url)
     end
 
-    it 'sets a success notice with book count' do
-      author_with_books = create(:author, :with_books)
+    it "sets a success notice with book count" do
+      author_with_books = create(:author, :with_books, user: user)
       delete :destroy, params: { id: author_with_books.id }
       expect(flash[:notice]).to match(/5 associated books/)
     end

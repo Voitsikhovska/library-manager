@@ -3,4 +3,9 @@ class ApplicationController < ActionController::Base
   allow_browser versions: :modern
 
   include SessionsHelper
+
+
+  def check_resource_ownership(resource, redirect_path, message = "Not authorized")
+    redirect_to redirect_path, alert: message unless resource.user == current_user
+  end
 end
