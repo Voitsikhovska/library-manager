@@ -30,4 +30,3 @@ RSpec.configure do |config|
   config.include AuthenticationHelpers, type: :request
   config.include AuthenticationHelpers, type: :feature
 end
-

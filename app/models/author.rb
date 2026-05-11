@@ -3,8 +3,8 @@ class Author < ApplicationRecord
   has_many :books, dependent: :destroy
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }, length: { minimum: 2, maximum: 100 }
-  validates :birth_year, numericality: { only_integer: true, allow_nil: true, 
-                                         greater_than_or_equal_to: 1000, 
+  validates :birth_year, numericality: { only_integer: true, allow_nil: true,
+                                         greater_than_or_equal_to: 1000,
                                          less_than_or_equal_to: -> { Date.current.year } }
   validates :bio, length: { maximum: 5000 }, allow_nil: true
 
@@ -19,7 +19,7 @@ class Author < ApplicationRecord
   scope :without_books, -> { left_joins(:books).where(books: { id: nil }) }
 
   def display_birth_year
-    birth_year || 'Unknown'
+    birth_year || "Unknown"
   end
 
   def books_count

@@ -14,7 +14,7 @@ RSpec.describe BookSearchService do
       it 'returns all books' do
         service = BookSearchService.new({})
         results = service.call
-        expect(results).to match_array([book1, book2, book3])
+        expect(results).to match_array([ book1, book2, book3 ])
       end
     end
 
@@ -22,25 +22,25 @@ RSpec.describe BookSearchService do
       it 'searches in title' do
         service = BookSearchService.new(search: 'harry')
         results = service.call
-        expect(results).to eq([book1])
+        expect(results).to eq([ book1 ])
       end
 
       it 'searches in description' do
         service = BookSearchService.new(search: 'dystopian')
         results = service.call
-        expect(results).to eq([book2])
+        expect(results).to eq([ book2 ])
       end
 
       it 'searches in ISBN' do
         service = BookSearchService.new(search: 'ISBN-2')
         results = service.call
-        expect(results).to eq([book2])
+        expect(results).to eq([ book2 ])
       end
 
       it 'is case insensitive' do
         service = BookSearchService.new(search: 'HARRY')
         results = service.call
-        expect(results).to eq([book1])
+        expect(results).to eq([ book1 ])
       end
     end
 
@@ -48,7 +48,7 @@ RSpec.describe BookSearchService do
       it 'filters by author_id' do
         service = BookSearchService.new(author_id: author2.id)
         results = service.call
-        expect(results).to match_array([book2, book3])
+        expect(results).to match_array([ book2, book3 ])
       end
     end
 
@@ -56,19 +56,19 @@ RSpec.describe BookSearchService do
       it 'filters by year_from' do
         service = BookSearchService.new(year_from: 1949)
         results = service.call
-        expect(results).to match_array([book1, book2])
+        expect(results).to match_array([ book1, book2 ])
       end
 
       it 'filters by year_to' do
         service = BookSearchService.new(year_to: 1949)
         results = service.call
-        expect(results).to match_array([book2, book3])
+        expect(results).to match_array([ book2, book3 ])
       end
 
       it 'filters by year range' do
         service = BookSearchService.new(year_from: 1945, year_to: 1949)
         results = service.call
-        expect(results).to match_array([book2, book3])
+        expect(results).to match_array([ book2, book3 ])
       end
     end
 
@@ -81,9 +81,8 @@ RSpec.describe BookSearchService do
           year_to: 1950
         )
         results = service.call
-        expect(results).to eq([book3])
+        expect(results).to eq([ book3 ])
       end
     end
   end
 end
-

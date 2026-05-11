@@ -82,4 +82,3 @@ gem "kaminari", "~> 1.2"
 
 # Tailwind CSS for styling
 gem "tailwindcss-rails", "~> 2.0"
-

@@ -3,7 +3,7 @@ class User < ApplicationRecord
   has_many :books, dependent: :destroy
   has_many :authors, dependent: :destroy
 
-  validates :email, presence: true, uniqueness: { case_sensitive: false }, 
+  validates :email, presence: true, uniqueness: { case_sensitive: false },
             format: { with: URI::MailTo::EMAIL_REGEXP }, length: { maximum: 255 }
   validates :name, presence: true, length: { minimum: 2, maximum: 100 }
   validates :password, presence: true, length: { minimum: 6 }, if: -> { new_record? || !password.nil? }

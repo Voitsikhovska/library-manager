@@ -10,7 +10,7 @@ RSpec.describe AuthorSearchService do
       it 'returns all authors' do
         service = AuthorSearchService.new({})
         results = service.call
-        expect(results).to match_array([author1, author2, author3])
+        expect(results).to match_array([ author1, author2, author3 ])
       end
     end
 
@@ -18,19 +18,19 @@ RSpec.describe AuthorSearchService do
       it 'searches in name' do
         service = AuthorSearchService.new(search: 'rowling')
         results = service.call
-        expect(results).to eq([author1])
+        expect(results).to eq([ author1 ])
       end
 
       it 'searches in bio' do
         service = AuthorSearchService.new(search: 'novelist')
         results = service.call
-        expect(results).to eq([author2])
+        expect(results).to eq([ author2 ])
       end
 
       it 'is case insensitive' do
         service = AuthorSearchService.new(search: 'ORWELL')
         results = service.call
-        expect(results).to eq([author2])
+        expect(results).to eq([ author2 ])
       end
     end
 
@@ -38,19 +38,19 @@ RSpec.describe AuthorSearchService do
       it 'filters by birth_year_from' do
         service = AuthorSearchService.new(birth_year_from: 1900)
         results = service.call
-        expect(results).to match_array([author1, author2])
+        expect(results).to match_array([ author1, author2 ])
       end
 
       it 'filters by birth_year_to' do
         service = AuthorSearchService.new(birth_year_to: 1900)
         results = service.call
-        expect(results).to match_array([author3])
+        expect(results).to match_array([ author3 ])
       end
 
       it 'filters by birth year range' do
         service = AuthorSearchService.new(birth_year_from: 1800, birth_year_to: 1950)
         results = service.call
-        expect(results).to match_array([author2])  # Only George Orwell (1903 is between 1800-1950)
+        expect(results).to match_array([ author2 ])  # Only George Orwell (1903 is between 1800-1950)
       end
     end
 
@@ -62,9 +62,8 @@ RSpec.describe AuthorSearchService do
           birth_year_to: 1950
         )
         results = service.call
-        expect(results).to match_array([author2])  # Only George Orwell (English + 1800-1950)
+        expect(results).to match_array([ author2 ])  # Only George Orwell (English + 1800-1950)
       end
     end
   end
 end
-

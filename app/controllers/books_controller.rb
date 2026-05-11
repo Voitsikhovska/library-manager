@@ -62,12 +62,12 @@ class BooksController < ApplicationController
       send_data BookExportService.to_csv(books),
                 filename: "books_#{Date.today}.csv",
                 type: "text/csv; charset=utf-8",
-                disposition: 'attachment'
+                disposition: "attachment"
     when "json"
       send_data BookExportService.to_json(books),
                 filename: "books_#{Date.today}.json",
                 type: "application/json",
-                disposition: 'attachment'
+                disposition: "attachment"
     else
       redirect_to books_path, alert: "Invalid export format"
     end

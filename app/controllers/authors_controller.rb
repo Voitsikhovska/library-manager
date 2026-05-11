@@ -58,12 +58,12 @@ class AuthorsController < ApplicationController
       send_data AuthorExportService.to_csv(authors),
                 filename: "authors_#{Date.today}.csv",
                 type: "text/csv; charset=utf-8",
-                disposition: 'attachment'
+                disposition: "attachment"
     when "json"
       send_data AuthorExportService.to_json(authors),
                 filename: "authors_#{Date.today}.json",
                 type: "application/json",
-                disposition: 'attachment'
+                disposition: "attachment"
     else
       redirect_to authors_path, alert: "Invalid export format"
     end

@@ -15,7 +15,7 @@ RSpec.describe AuthorsController, type: :controller do
 
     it 'assigns @authors' do
       get :index
-      expect(assigns(:authors)).to match_array([author1, author2])
+      expect(assigns(:authors)).to match_array([ author1, author2 ])
     end
   end
 
@@ -34,7 +34,7 @@ RSpec.describe AuthorsController, type: :controller do
       book1 = create(:book, author: author)
       book2 = create(:book, author: author)
       get :show, params: { id: author.id }
-      expect(assigns(:books)).to match_array([book1, book2])
+      expect(assigns(:books)).to match_array([ book1, book2 ])
     end
   end
 
@@ -193,4 +193,3 @@ RSpec.describe AuthorsController, type: :controller do
     end
   end
 end
-

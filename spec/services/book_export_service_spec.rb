@@ -5,7 +5,7 @@ RSpec.describe BookExportService do
   let(:author) { create(:author, name: 'Jane Author') }
   let!(:book1) { create(:book, title: 'Book One', author: author, user: user, isbn: 'ISBN-1', published_year: 2020, description: 'First book') }
   let!(:book2) { create(:book, title: 'Book Two', author: author, user: user, isbn: 'ISBN-2', published_year: 2021, description: 'Second book') }
-  let(:books) { [book1, book2] }
+  let(:books) { [ book1, book2 ] }
 
   describe '.to_csv' do
     it 'exports books to CSV format' do
@@ -26,7 +26,7 @@ RSpec.describe BookExportService do
       rows = CSV.parse(csv_data)
       headers = rows.first
 
-      expect(headers).to eq(['Title', 'Author', 'ISBN', 'Published Year', 'Description', 'Added By', 'Created At'])
+      expect(headers).to eq([ 'Title', 'Author', 'ISBN', 'Published Year', 'Description', 'Added By', 'Created At' ])
     end
 
     it 'includes book data in rows' do
@@ -87,4 +87,3 @@ RSpec.describe BookExportService do
     end
   end
 end
-

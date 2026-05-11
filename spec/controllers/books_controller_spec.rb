@@ -17,7 +17,7 @@ RSpec.describe BooksController, type: :controller do
 
     it 'assigns @books' do
       get :index
-      expect(assigns(:books)).to match_array([book1, book2])
+      expect(assigns(:books)).to match_array([ book1, book2 ])
     end
 
     it 'assigns @authors' do
@@ -293,4 +293,3 @@ RSpec.describe BooksController, type: :controller do
     end
   end
 end
-

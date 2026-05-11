@@ -56,7 +56,7 @@ RSpec.describe Book, type: :model do
     describe '.by_year' do
       it 'filters books by published year' do
         results = Book.by_year(2020)
-        expect(results).to eq([book1])
+        expect(results).to eq([ book1 ])
       end
     end
 
@@ -78,7 +78,7 @@ RSpec.describe Book, type: :model do
     describe '.alphabetical' do
       it 'orders books alphabetically by title' do
         results = Book.alphabetical
-        expect(results.pluck(:title)).to eq(['Advanced Ruby', 'Rails Guide', 'Ruby Programming'])
+        expect(results.pluck(:title)).to eq([ 'Advanced Ruby', 'Rails Guide', 'Ruby Programming' ])
       end
     end
   end
@@ -92,4 +92,3 @@ RSpec.describe Book, type: :model do
     end
   end
 end
-

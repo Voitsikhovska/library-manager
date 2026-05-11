@@ -38,7 +38,7 @@ RSpec.describe Author, type: :model do
     describe '.by_birth_year' do
       it 'filters authors by birth year' do
         results = Author.by_birth_year(1950)
-        expect(results).to eq([author1])
+        expect(results).to eq([ author1 ])
       end
     end
 
@@ -53,7 +53,7 @@ RSpec.describe Author, type: :model do
     describe '.alphabetical' do
       it 'orders authors alphabetically by name' do
         results = Author.alphabetical
-        expect(results).to eq([author3, author2, author1])
+        expect(results).to eq([ author3, author2, author1 ])
       end
     end
   end
@@ -77,4 +77,3 @@ RSpec.describe Author, type: :model do
     end
   end
 end
-

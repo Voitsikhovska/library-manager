@@ -22,7 +22,7 @@ class Book < ApplicationRecord
   scope :published_before, ->(year) { where("published_year <= ?", year) }
 
   def display_year
-    published_year || 'Unknown'
+    published_year || "Unknown"
   end
 
   def full_description
