@@ -71,7 +71,7 @@ group :test do
   gem "selenium-webdriver"
 
   # RSpec test helpers
-  gem "shoulda-matchers", "~> 6.0"
+  gem "shoulda-matchers", "~> 7.0"
   gem "database_cleaner-active_record", "~> 2.1"
   gem "simplecov", require: false
   gem "webmock", "~> 3.19"
